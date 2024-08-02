@@ -1,0 +1,19 @@
+apply plugin: 'maven-publish'
+
+publishing {
+
+    publications {
+        library(MavenPublication) {
+            setGroupId(project.groupId)
+            setArtifactId(project.artifactId)
+            version project.snapshot
+//            from components.java
+            afterEvaluate {
+                artifact(tasks.getByName("bundleReleaseAar"))
+            }
+            println "publishing: " + groupId
+            println "publishing: " + artifactId
+            println "publishing: " + version
+        }
+    }
+}

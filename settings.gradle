@@ -1,0 +1,3 @@
+rootProject.name = "mvplib"
+include ':app'
+include ':libmvp'

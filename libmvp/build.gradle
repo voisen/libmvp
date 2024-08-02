@@ -1,0 +1,65 @@
+apply plugin: "com.android.library"
+
+android {
+    compileSdkVersion  29
+
+    defaultConfig {
+        minSdkVersion 19
+        minSdkVersion 21
+        targetSdkVersion 29
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
+}
+
+/**
+ rxjava = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rxjava" }
+ rxandroid = { group = "io.reactivex.rxjava3", name = "rxandroid", version.ref = "rxandroid" }
+ */
+
+dependencies {
+    compileOnly "androidx.appcompat:appcompat:1.0.0"
+    compileOnly 'androidx.recyclerview:recyclerview:1.0.0'
+    compileOnly 'androidx.cardview:cardview:1.0.0'
+    compileOnly 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    api "io.reactivex.rxjava3:rxjava:3.1.8"
+    api "io.reactivex.rxjava3:rxandroid:3.0.2"
+
+    api 'me.jessyan:autosize:1.2.1'
+
+    api 'com.squareup.okhttp3:okhttp:4.11.0'
+    //引入retrofit
+    api 'com.squareup.retrofit2:retrofit:2.9.0'
+    api 'com.squareup.retrofit2:converter-gson:2.9.0'
+    api 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
+
+    api "com.github.voisen:LoggingInterceptor:3.1.2"
+
+    api 'com.github.NashLegend:AnyPref:1.2.6'
+    api 'org.greenrobot:eventbus:3.3.1'
+    api 'com.blankj:utilcodex:1.31.1'
+    api 'com.github.bumptech.glide:glide:4.16.0'
+    api 'com.github.chrisbanes:PhotoView:2.0.0'
+    api 'de.hdodenhof:circleimageview:3.1.0'
+    api 'top.zibin:Luban:1.1.8'
+    api 'com.github.voisen:RoundImageView:1.0.5'
+}
+
+apply from: "../publishing.gradle"
