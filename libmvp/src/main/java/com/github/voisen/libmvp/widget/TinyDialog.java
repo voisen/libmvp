@@ -1,5 +1,6 @@
 package com.github.voisen.libmvp.widget;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,6 +13,8 @@ import android.view.WindowManager;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
+import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.github.voisen.libmvp.databinding.LibmvpLayoutTinyDialogBinding;
@@ -129,6 +132,7 @@ public class TinyDialog implements DialogInterface {
         if (window == null){
             return;
         }
+
         window.getDecorView().setBackgroundColor(Color.TRANSPARENT);
         WindowManager.LayoutParams attributes = window.getAttributes();
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
@@ -150,7 +154,7 @@ public class TinyDialog implements DialogInterface {
 
 
     public static class Builder{
-        private Context mContext;
+        private final Context mContext;
         private CharSequence mTitle;
         private CharSequence mMessage;
         private CharSequence mNegativeButtonText;

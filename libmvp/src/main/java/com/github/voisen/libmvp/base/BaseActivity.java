@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewbinding.ViewBinding;
 
+import com.blankj.utilcode.util.BarUtils;
 import com.github.voisen.libmvp.AppProfile;
 import com.github.voisen.libmvp.R;
 import com.github.voisen.libmvp.widget.ProgressHUB;
@@ -61,6 +62,7 @@ public abstract class BaseActivity<VB extends ViewBinding, P extends BasePresent
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        BarUtils.setStatusBarLightMode(getWindow(), statusBarIsLightMode());
         initParams();
         initContentView();
         onViewLoaded();
@@ -113,6 +115,10 @@ public abstract class BaseActivity<VB extends ViewBinding, P extends BasePresent
 
     protected ProgressHUB getProgressHUB() {
         return mProgressHUB;
+    }
+
+    protected boolean statusBarIsLightMode(){
+        return AppProfile.getBarMode() == AppProfile.Mode.LIGHT;
     }
 
     protected void dismissDialog(){

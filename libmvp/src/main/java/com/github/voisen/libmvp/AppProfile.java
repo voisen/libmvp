@@ -24,6 +24,7 @@ public final class AppProfile {
     }
 
     private static Mode mMode = Mode.LIGHT;
+    private static Mode mBarMode = Mode.LIGHT;
 
     private static Drawable mErrorDrawable;
     private static Drawable mSuccessDrawable;
@@ -43,6 +44,10 @@ public final class AppProfile {
         ERROR,
         INFO,
         SUCCESS
+    }
+
+    public static void setBarMode(Mode barMode) {
+        AppProfile.mBarMode = barMode;
     }
 
     public static void setErrorIcon(Drawable drawable) {
@@ -71,5 +76,9 @@ public final class AppProfile {
 
     public static Drawable getSuccessDrawable() {
         return mSuccessDrawable;
+    }
+
+    public static Mode getBarMode() {
+        return mBarMode;
     }
 }
