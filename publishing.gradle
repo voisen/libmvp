@@ -1,5 +1,6 @@
 apply plugin: 'maven-publish'
 
+
 publishing {
 
     publications {
@@ -13,20 +14,21 @@ publishing {
             }
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-
                 def scopes = [configurations.compile]
                 if (configurations.hasProperty("api")) {
                     scopes.add(configurations.api)
                 }
-                if (configurations.hasProperty("implementation")) {
-                    scopes.add(configurations.implementation)
-                }
-                if (configurations.hasProperty("debugImplementation")) {
-                    scopes.add(configurations.debugImplementation)
-                }
-                if (configurations.hasProperty("releaseImplementation")) {
-                    scopes.add(configurations.releaseImplementation)
-                }
+//                if (configurations.hasProperty("implementation")) {
+//                    scopes.add(configurations.implementation)
+//                }
+//
+//                if (configurations.hasProperty("debugImplementation")) {
+//                    scopes.add(configurations.debugImplementation)
+//                }
+//
+//                if (configurations.hasProperty("releaseImplementation")) {
+//                    scopes.add(configurations.releaseImplementation)
+//                }
                 scopes.each { scope ->
                     scope.allDependencies.each {
                         if (it instanceof ModuleDependency) {
@@ -36,11 +38,9 @@ publishing {
                                 return
                             }
                         }
-
                         if (it.group == "${project.rootProject.name}.libs" || it.version == 'unspecified') {
                             return
                         }
-
                         if (it.group && it.name && it.version) {
                             def dependencyNode = dependenciesNode.appendNode('dependency')
                             dependencyNode.appendNode('groupId', it.group)
