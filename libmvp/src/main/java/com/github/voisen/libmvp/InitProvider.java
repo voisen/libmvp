@@ -16,7 +16,7 @@ public final class InitProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         Log.i(TAG, "onCreate: 初始化MVP框架...");
-        MvpLib.init(getContext());
+        AppProfile.init(getContext());
         AnyPref.init(getContext());
         return false;
     }

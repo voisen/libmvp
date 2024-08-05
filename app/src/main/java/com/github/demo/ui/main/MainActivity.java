@@ -7,10 +7,13 @@ import android.view.View;
 import com.github.demo.api.Api;
 import com.github.demo.databinding.ActivityMainBinding;
 import com.github.demo.ui.recycler.RecyclerActivity;
+import com.github.voisen.libmvp.AppProfile;
 import com.github.voisen.libmvp.base.BaseActivity;
 import com.github.voisen.libmvp.network.INetworkProgressListener;
 import com.github.voisen.libmvp.network.RetrofitCreator;
 import com.github.voisen.libmvp.utils.RxUtils;
+import com.github.voisen.libmvp.widget.ProgressHUB;
+import com.github.voisen.libmvp.widget.TinyToast;
 
 import java.io.File;
 import java.util.Locale;
@@ -83,5 +86,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainPresente
 
     public void testDownload(View view) {
         testDownload();
+    }
+
+    public void testTinyToast(View view) {
+        TinyToast.showMessage(AppProfile.Status.ERROR, "交易失败", 3000);
+        Log.i(TAG, "testTinyToast: 消息提示");
     }
 }

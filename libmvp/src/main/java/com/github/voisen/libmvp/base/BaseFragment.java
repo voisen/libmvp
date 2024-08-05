@@ -9,11 +9,13 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.viewbinding.ViewBinding;
 
 import com.github.voisen.libmvp.AppProfile;
@@ -30,7 +32,8 @@ import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 
-public abstract class BaseActivity<VB extends ViewBinding, P extends BasePresenter> extends AppCompatActivity implements BaseView {
+public abstract class BaseFragment<VB extends ViewBinding, P extends BasePresenter> extends Fragment implements BaseView{
+
 
     protected final String TAG = getClass().getSimpleName();
     protected VB mViewBinding;
@@ -38,8 +41,6 @@ public abstract class BaseActivity<VB extends ViewBinding, P extends BasePresent
     protected final Handler mHandler = new Handler(Looper.getMainLooper());
     private ProgressHUB mProgressHUB;
     private DialogInterface mDialog = null;
-    private static int mDefaultScreenOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
-
     protected final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     protected abstract class AutoDisposableObserver<T> implements Observer<T> {
@@ -58,17 +59,22 @@ public abstract class BaseActivity<VB extends ViewBinding, P extends BasePresent
         }
     }
 
+    @Nullable
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(@androidx.annotation.NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         initParams();
-        initContentView();
+        return contentView();
+    }
+
+    @Override
+    public void onViewCreated(@androidx.annotation.NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         onViewLoaded();
     }
 
     @SuppressWarnings("unchecked")
     private void initParams() {
-        mProgressHUB = new ProgressHUB(this);
+        mProgressHUB = new ProgressHUB(getContext());
         Type genericSuperclass = getClass().getGenericSuperclass();
         if (genericSuperclass instanceof ParameterizedType){
             ParameterizedType parameterizedType = (ParameterizedType) genericSuperclass;
@@ -79,7 +85,7 @@ public abstract class BaseActivity<VB extends ViewBinding, P extends BasePresent
                     if (ViewBinding.class.isAssignableFrom(classType)) {
                         if (ViewBinding.class != classType){
                             Method inflate = classType.getMethod("inflate", LayoutInflater.class);
-                            mViewBinding = (VB) inflate.invoke(null, LayoutInflater.from(this));
+                            mViewBinding = (VB) inflate.invoke(null, LayoutInflater.from(getContext()));
                         }
                     } else if (BasePresenter.class.isAssignableFrom(classType)) {
                         if (BasePresenter.class != classType){
@@ -91,24 +97,16 @@ public abstract class BaseActivity<VB extends ViewBinding, P extends BasePresent
                 }
             }
         }
-        int screenOrientation = getScreenOrientation();
-        if (screenOrientation != ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED){
-            setRequestedOrientation(screenOrientation);
-        }
     }
 
-    private void initContentView() {
-        //获取第一个参数
-        if (mViewBinding != null){
-            setContentView(mViewBinding.getRoot());
-        }
+    private View contentView() {
         if (mPresenter != null){
             mPresenter.attach(this);
         }
-    }
-
-    public static void setDefaultScreenOrientation(int defaultScreenOrientation){
-        mDefaultScreenOrientation = defaultScreenOrientation;
+        if (mViewBinding == null){
+            return null;
+        }
+        return mViewBinding.getRoot();
     }
 
     protected ProgressHUB getProgressHUB() {
@@ -134,8 +132,9 @@ public abstract class BaseActivity<VB extends ViewBinding, P extends BasePresent
         mDialog = builder.show();
     }
 
+
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         mHandler.removeCallbacksAndMessages(null);
         if (mPresenter != null){
             mPresenter.detach();
@@ -150,10 +149,6 @@ public abstract class BaseActivity<VB extends ViewBinding, P extends BasePresent
      * 视图加载完成后调用
      */
     protected abstract void onViewLoaded();
-
-    protected int getScreenOrientation(){
-        return mDefaultScreenOrientation;
-    }
 
     @Override
     public void showLoading(CharSequence msg) {
@@ -188,7 +183,7 @@ public abstract class BaseActivity<VB extends ViewBinding, P extends BasePresent
     @Override
     public void showAlertMessage(CharSequence msg) {
         dismissDialog();
-        mDialog = new TinyDialog.Builder(this)
+        mDialog = new TinyDialog.Builder(getContext())
                 .setTitle(msg)
                 .setCancelable(false)
                 .setClickButtonDismiss(true)
@@ -199,7 +194,7 @@ public abstract class BaseActivity<VB extends ViewBinding, P extends BasePresent
     @Override
     public void showAlertMessage(CharSequence title, CharSequence msg, CharSequence cancelText, CharSequence sureText, DialogInterface.OnClickListener onOkClickListener) {
         dismissDialog();
-        mDialog = new TinyDialog.Builder(this)
+        mDialog = new TinyDialog.Builder(getContext())
                 .setTitle(title)
                 .setMessage(msg)
                 .setCancelable(false)
@@ -208,4 +203,5 @@ public abstract class BaseActivity<VB extends ViewBinding, P extends BasePresent
                 .setPositiveButton(sureText, onOkClickListener)
                 .show();
     }
+
 }

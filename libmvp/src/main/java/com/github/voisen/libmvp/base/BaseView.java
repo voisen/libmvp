@@ -3,7 +3,7 @@ package com.github.voisen.libmvp.base;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 
-import com.github.voisen.libmvp.widget.ProgressHUB;
+import com.github.voisen.libmvp.AppProfile;
 
 public interface BaseView {
 
@@ -36,7 +36,7 @@ public interface BaseView {
      * @param status 状态
      * @param msg 消息
      */
-    void showMessageWithStatus(ProgressHUB.Status status, CharSequence msg);
+    void showMessageWithStatus(AppProfile.Status status, CharSequence msg);
 
     /**
      * 显示进度条

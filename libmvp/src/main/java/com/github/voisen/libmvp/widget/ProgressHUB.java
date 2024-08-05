@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.StringUtils;
+import com.github.voisen.libmvp.AppProfile;
 import com.github.voisen.libmvp.R;
 
 import me.jessyan.autosize.utils.AutoSizeUtils;
@@ -31,48 +32,11 @@ public class ProgressHUB {
     private LoadingView mLoadingView;
     private ImageView mIconView;
 
-    private static Mode mMode = Mode.LIGHT;
-
-    private static Drawable mErrorDrawable;
-    private static Drawable mSuccessDrawable;
-    private static Drawable mInfoDrawable;
-
-    public enum Mode{
-        LIGHT,
-        DARK
-    }
-
-    public enum Status{
-        ERROR,
-        INFO,
-        SUCCESS
-    }
-
     public ProgressHUB(Context mContext) {
         this.mContext = mContext;
-        setSuccessIcon(mContext.getResources().getDrawable(R.drawable.libmvp_ic_successful));
-        setInfoIcon(mContext.getResources().getDrawable(R.drawable.libmvp_ic_info));
-        setErrorIcon(mContext.getResources().getDrawable(R.drawable.libmvp_ic_error));
         mAlert = new Dialog(mContext);
         mAlert.setCancelable(false);
         initLoadingView();
-    }
-
-
-    public static void setMode(Mode mode) {
-        mMode = mode;
-    }
-
-    public static void setErrorIcon(Drawable drawable) {
-        mErrorDrawable = drawable;
-    }
-
-    public static void setInfoIcon(Drawable drawable) {
-        mInfoDrawable = drawable;
-    }
-
-    public static void setSuccessIcon(Drawable drawable) {
-        mSuccessDrawable = drawable;
     }
 
     private void initLoadingView() {
@@ -106,7 +70,7 @@ public class ProgressHUB {
 
     private void applyAttributes(){
         Window alertWindow = mAlert.getWindow();
-        mLoadingView.setDarkMode(mMode == Mode.DARK);
+        mLoadingView.setDarkMode(AppProfile.getMode() == AppProfile.Mode.DARK);
         if (alertWindow == null){
             return;
         }
@@ -116,7 +80,7 @@ public class ProgressHUB {
         }
         attributes.width = WindowManager.LayoutParams.WRAP_CONTENT;
         attributes.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        if (mMode == Mode.DARK){
+        if (AppProfile.getMode() == AppProfile.Mode.DARK){
             alertWindow.getDecorView().setBackgroundResource(R.drawable.libmvp_bg_hub_dark);
         }else{
             alertWindow.getDecorView().setBackgroundResource(R.drawable.libmvp_bg_hub_light);
@@ -156,18 +120,21 @@ public class ProgressHUB {
         mAlert.show();
     }
 
-    public void showMessageWithStatus(Status status, CharSequence msg, long duration){
+    public void showMessageWithStatus(AppProfile.Status status, CharSequence msg, long duration){
         mHandler.removeCallbacksAndMessages(null);
         setMessage(msg);
         switch (status){
             case INFO:
-                setIcon(mInfoDrawable);
+                setIcon(AppProfile.getInfoDrawable());
                 break;
             case ERROR:
-                setIcon(mErrorDrawable);
+                setIcon(AppProfile.getErrorDrawable());
                 break;
             case SUCCESS:
-                setIcon(mSuccessDrawable);
+                setIcon(AppProfile.getSuccessDrawable());
+                break;
+            case UNKNOWN:
+                setIcon(null);
                 break;
         }
         mLoadingView.setVisibility(View.GONE);
@@ -202,7 +169,7 @@ public class ProgressHUB {
         }else{
             mMessageView.setText(msg);
             mMessageView.setVisibility(View.VISIBLE);
-            if (mMode == Mode.DARK){
+            if (AppProfile.getMode() == AppProfile.Mode.DARK){
                 mMessageView.setTextColor(Color.WHITE);
             }else{
                 mMessageView.setTextColor(Color.BLACK);
