@@ -89,7 +89,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainPresente
     }
 
     public void testTinyToast(View view) {
-        TinyToast.showMessage(AppProfile.Status.ERROR, "交易失败", 3000);
+//        TinyToast.showMessage(AppProfile.Status.ERROR, "交易失败", 3000);
         Log.i(TAG, "testTinyToast: 消息提示");
+        showMessageWithStatus(AppProfile.Status.SUCCESS, "交易成功");
     }
 }

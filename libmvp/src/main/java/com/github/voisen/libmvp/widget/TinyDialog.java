@@ -134,10 +134,12 @@ public class TinyDialog implements DialogInterface {
         }
 
         window.getDecorView().setBackgroundColor(Color.TRANSPARENT);
+        window.getDecorView().setPadding(0,0,0,0);
         WindowManager.LayoutParams attributes = window.getAttributes();
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.copyFrom(attributes);
-        layoutParams.width = (int) Math.min(Math.min(ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight()) * 0.85, AutoSizeUtils.dp2px(mBuilder.mContext, 500));
+        layoutParams.horizontalMargin = 0;
+        layoutParams.width = (int) Math.min(Math.min(ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight()) * 0.95f, AutoSizeUtils.dp2px(mBuilder.mContext, 800));
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(layoutParams);
     }
