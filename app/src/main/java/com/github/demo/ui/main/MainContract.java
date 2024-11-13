@@ -9,7 +9,7 @@ import java.util.Map;
 
 import io.reactivex.rxjava3.core.Observable;
 
-public interface MainContract {
+interface MainContract {
 
     interface Model extends BaseModel{
         Observable<Optional<Map<String, String>>> login(String username, String password);

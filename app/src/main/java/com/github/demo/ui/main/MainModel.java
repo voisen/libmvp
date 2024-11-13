@@ -13,7 +13,7 @@ import java.util.Map;
 import io.reactivex.rxjava3.core.Observable;
 import okhttp3.HttpUrl;
 
-public class MainModel implements MainContract.Model {
+class MainModel implements MainContract.Model {
     private final String TAG = this.getClass().getSimpleName();
     @Override
     public Observable<Optional<Map<String, String>>> login(String username, String password) {

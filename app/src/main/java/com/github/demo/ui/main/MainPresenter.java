@@ -2,7 +2,7 @@ package com.github.demo.ui.main;
 
 import java.util.Map;
 
-public class MainPresenter extends MainContract.Presenter {
+class MainPresenter extends MainContract.Presenter {
 
     @Override
     void login(String username, String password) {

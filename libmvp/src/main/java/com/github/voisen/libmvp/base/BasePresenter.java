@@ -5,6 +5,7 @@ import android.util.Log;
 import com.github.voisen.libmvp.BuildConfig;
 import com.github.voisen.libmvp.utils.Optional;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Objects;
@@ -78,7 +79,9 @@ public abstract class BasePresenter<M extends BaseModel, V extends BaseView> {
                 Type[] typeArguments = ((ParameterizedType) genericSuperclass).getActualTypeArguments();
                 if (typeArguments.length > 1){
                     Class<?> modelClass = (Class<?>) typeArguments[0];
-                    mModel = (M) modelClass.newInstance();
+                    Constructor<?> constructor = modelClass.getDeclaredConstructor();
+                    constructor.setAccessible(true);
+                    mModel = (M) constructor.newInstance();
                     Log.i(TAG, "loadModel: 加载模型成功: " + mModel);
                 }
             }else{

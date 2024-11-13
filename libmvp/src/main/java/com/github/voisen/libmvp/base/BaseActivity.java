@@ -22,6 +22,7 @@ import com.github.voisen.libmvp.R;
 import com.github.voisen.libmvp.widget.ProgressHUB;
 import com.github.voisen.libmvp.widget.TinyDialog;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -85,7 +86,9 @@ public abstract class BaseActivity<VB extends ViewBinding, P extends BasePresent
                         }
                     } else if (BasePresenter.class.isAssignableFrom(classType)) {
                         if (BasePresenter.class != classType){
-                            mPresenter = (P) classType.newInstance();
+                            Constructor<?> constructor = classType.getDeclaredConstructor();
+                            constructor.setAccessible(true);
+                            mPresenter = (P) constructor.newInstance();
                         }
                     }
                 }catch (Exception e){

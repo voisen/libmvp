@@ -41,41 +41,41 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainPresente
     private void testDownload() {
         String url = "https://dldir1.qq.com/weixin/android/weixin8050android2701_0x2800323e_arm64.apk";
         showProgress(-1, "请稍后");
-        RetrofitCreator.create(Api.class, new INetworkProgressListener() {
-                    @Override
-                    public void onDownloadProgress(HttpUrl url, long total, long completed, long speedBytes) {
-                        float v = completed * 1f / total;
-                        mHandler.post(() -> {
-                            showProgress(v, String.format(Locale.CHINA, "下载中\n%.2fMb/s", speedBytes / 1024.0f / 1024.0f));
-                        });
-                        Log.i(TAG, "onDownloadProgress: 进度: " + completed + "/" + total + ", speed: " + speedBytes);
-                    }
-
-                    @Override
-                    public void onUploadProgress(HttpUrl url, long total, long completed, long speedBytes) {
-                        Log.i(TAG, "onUploadProgress: " + completed + " | " + total);
-                    }
-                })
-                .downloadFile(url)
-                .compose(RxUtils.downloadFileHandler(new File(getExternalCacheDir() + "temp.data")))
-                .subscribe(new AutoDisposableObserver<File>() {
-                    @Override
-                    public void onNext(@NonNull File file) {
-                        mHandler.post(() -> {
-                            showMessage("下载成功");
-                            showLoading("处理中...");
-                        });
-                        mHandler.postDelayed(MainActivity.this::dismissLoading, 3000);
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.e(TAG, "onError: 失败: ", e);
-                        mHandler.post(() -> {
-                            showMessage("下载失败: " + e.getLocalizedMessage());
-                        });
-                    }
-                });
+//        RetrofitCreator.create(Api.class, new INetworkProgressListener() {
+//                    @Override
+//                    public void onDownloadProgress(HttpUrl url, long total, long completed, long speedBytes) {
+//                        float v = completed * 1f / total;
+//                        mHandler.post(() -> {
+//                            showProgress(v, String.format(Locale.CHINA, "下载中\n%.2fMb/s", speedBytes / 1024.0f / 1024.0f));
+//                        });
+//                        Log.i(TAG, "onDownloadProgress: 进度: " + completed + "/" + total + ", speed: " + speedBytes);
+//                    }
+//
+//                    @Override
+//                    public void onUploadProgress(HttpUrl url, long total, long completed, long speedBytes) {
+//                        Log.i(TAG, "onUploadProgress: " + completed + " | " + total);
+//                    }
+//                })
+//                .downloadFile(url)
+//                .compose(RxUtils.downloadFileHandler(new File(getExternalCacheDir() + "temp.data")))
+//                .subscribe(new AutoDisposableObserver<File>() {
+//                    @Override
+//                    public void onNext(@NonNull File file) {
+//                        mHandler.post(() -> {
+//                            showMessage("下载成功");
+//                            showLoading("处理中...");
+//                        });
+//                        mHandler.postDelayed(MainActivity.this::dismissLoading, 3000);
+//                    }
+//
+//                    @Override
+//                    public void onError(@NonNull Throwable e) {
+//                        Log.e(TAG, "onError: 失败: ", e);
+//                        mHandler.post(() -> {
+//                            showMessage("下载失败: " + e.getLocalizedMessage());
+//                        });
+//                    }
+//                });
     }
 
 
@@ -89,8 +89,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainPresente
     }
 
     public void testTinyToast(View view) {
-//        TinyToast.showMessage(AppProfile.Status.ERROR, "交易失败", 3000);
-        Log.i(TAG, "testTinyToast: 消息提示");
-        showMessageWithStatus(AppProfile.Status.SUCCESS, "交易成功");
+        TinyToast.showMessage(AppProfile.Status.ERROR, "交易失败", 3000);
+//        Log.i(TAG, "testTinyToast: 消息提示");
+//        showMessageWithStatus(AppProfile.Status.SUCCESS, "111111111111111111111111111111111111111111111111111111111111111111111111111111");
     }
 }
