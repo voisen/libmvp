@@ -207,9 +207,15 @@ public abstract class BaseActivity<VB extends ViewBinding, P extends BasePresent
 
     @Override
     public void showAlertMessage(CharSequence msg) {
+        showAlertMessage(msg, null);
+    }
+
+    @Override
+    public void showAlertMessage(CharSequence title, CharSequence msg) {
         dismissDialog();
         mDialog = new TinyDialog.Builder(this)
-                .setTitle(msg)
+                .setTitle(title)
+                .setMessage(msg)
                 .setCancelable(false)
                 .setClickButtonDismiss(true)
                 .setPositiveButton(getString(R.string.libmvp_ok), null)
@@ -228,4 +234,6 @@ public abstract class BaseActivity<VB extends ViewBinding, P extends BasePresent
                 .setPositiveButton(sureText, onOkClickListener)
                 .show();
     }
+
+
 }

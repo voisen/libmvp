@@ -25,9 +25,7 @@ import okhttp3.HttpUrl;
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainPresenter> implements MainContract.View {
     @Override
     protected void onViewLoaded() {
-//        mPresenter.login("admin", "admin");
-//        showMessage("哈哈");
-        TinyToast.showError("好的哈哈");
+        mPresenter.login("admin", "admin");
     }
 
     @Override
@@ -92,7 +90,5 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainPresente
 
     public void testTinyToast(View view) {
         TinyToast.showMessage(AppProfile.Status.ERROR, "交易失败", 3000);
-//        Log.i(TAG, "testTinyToast: 消息提示");
-//        showMessageWithStatus(AppProfile.Status.SUCCESS, "111111111111111111111111111111111111111111111111111111111111111111111111111111");
     }
 }

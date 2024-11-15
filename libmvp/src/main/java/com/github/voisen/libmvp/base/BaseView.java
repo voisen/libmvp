@@ -53,6 +53,12 @@ public interface BaseView {
 
     /**
      * 显示提示框
+     * @param msg 提示框
+     */
+    void showAlertMessage(CharSequence title, CharSequence msg);
+
+    /**
+     * 显示提示框
      * @param title 标题
      * @param msg 消息
      * @param cancelText 取消按钮文本
