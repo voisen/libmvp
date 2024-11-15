@@ -25,7 +25,9 @@ import okhttp3.HttpUrl;
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainPresenter> implements MainContract.View {
     @Override
     protected void onViewLoaded() {
-        mPresenter.login("admin", "admin");
+//        mPresenter.login("admin", "admin");
+//        showMessage("哈哈");
+        TinyToast.showError("好的哈哈");
     }
 
     @Override

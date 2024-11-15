@@ -9,6 +9,10 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.MainActivity">
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <Button
         android:onClick="testRecyclerView"
         android:text="RecyclerView Test"
@@ -22,6 +26,10 @@
     <Button
         android:onClick="testTinyToast"
         android:text="Toast Tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

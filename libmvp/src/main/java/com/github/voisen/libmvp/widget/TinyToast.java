@@ -31,6 +31,22 @@ public class TinyToast {
         mContext = context;
     }
 
+    public static void showError(CharSequence msg){
+        showToast(AppProfile.Status.ERROR, msg, 2000);
+    }
+
+    public static void showInfo(CharSequence msg){
+        showToast(AppProfile.Status.INFO, msg, 2000);
+    }
+
+    public static void showSuccess(CharSequence msg){
+        showToast(AppProfile.Status.SUCCESS, msg, 2000);
+    }
+
+    public static void show(CharSequence msg){
+        showToast(AppProfile.Status.UNKNOWN, msg, 2000);
+    }
+
     public static void showMessage(AppProfile.Status status, CharSequence msg, long duration){
         showToast(status, msg, duration);
     }
@@ -61,12 +77,12 @@ public class TinyToast {
         cardView.setRadius(AutoSizeUtils.dp2px(mContext, 6));
         LinearLayout contentLayout = new LinearLayout(mContext);
         contentLayout.setMinimumWidth(AutoSizeUtils.dp2px(mContext, 100));
-        int px = AutoSizeUtils.dp2px(mContext, 15);
+        int px = AutoSizeUtils.dp2px(mContext, 14);
         contentLayout.setPadding(px, (int) (px * 0.6), px, (int) (px * 0.6));
-        contentLayout.setOrientation(LinearLayout.VERTICAL);
+        contentLayout.setOrientation(LinearLayout.HORIZONTAL);
         ImageView iconView = getImageView(status);
         if (iconView != null){
-            int iconSize = AutoSizeUtils.dp2px(mContext, 45);
+            int iconSize = AutoSizeUtils.dp2px(mContext, 20);
             ViewGroup.LayoutParams iconParams = new LinearLayout.LayoutParams(iconSize, iconSize);
             contentLayout.addView(iconView, iconParams);
         }
@@ -78,7 +94,7 @@ public class TinyToast {
         DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
         textView.setMaxWidth((int) (Math.min(displayMetrics.widthPixels, displayMetrics.heightPixels) * 0.7f));
         if (iconView != null){
-            textView.setPadding(0, AutoSizeUtils.dp2px(mContext, 6), 0, 0);
+            textView.setPadding(AutoSizeUtils.dp2px(mContext, 4), 0, 0, 0);
         }
         contentLayout.addView(textView, -2, -2);
         contentLayout.setGravity(Gravity.CENTER);

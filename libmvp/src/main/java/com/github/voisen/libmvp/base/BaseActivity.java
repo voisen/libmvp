@@ -9,6 +9,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.EditText;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.Nullable;
@@ -17,10 +21,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewbinding.ViewBinding;
 
 import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.github.voisen.libmvp.AppProfile;
 import com.github.voisen.libmvp.R;
 import com.github.voisen.libmvp.widget.ProgressHUB;
 import com.github.voisen.libmvp.widget.TinyDialog;
+import com.github.voisen.libmvp.widget.TinyToast;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -63,10 +69,20 @@ public abstract class BaseActivity<VB extends ViewBinding, P extends BasePresent
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BarUtils.setStatusBarLightMode(getWindow(), statusBarIsLightMode());
         initParams();
+        beforeInitContentView();
         initContentView();
+        afterInitContentView();
         onViewLoaded();
+    }
+
+    protected void afterInitContentView() {
+        getWindow().getDecorView().setOnTouchListener(this::onDecorViewTouch);
+    }
+
+    protected boolean onDecorViewTouch(View view, MotionEvent event) {
+        KeyboardUtils.hideSoftInput(this);
+        return true;
     }
 
     @SuppressWarnings("unchecked")
@@ -132,17 +148,6 @@ public abstract class BaseActivity<VB extends ViewBinding, P extends BasePresent
         mDialog = null;
     }
 
-    protected void showDialog(Dialog dialog){
-        dismissDialog();
-        dialog.show();
-        mDialog = dialog;
-    }
-
-    protected void showDialog(AlertDialog.Builder builder){
-        dismissDialog();
-        mDialog = builder.show();
-    }
-
     @Override
     protected void onDestroy() {
         mHandler.removeCallbacksAndMessages(null);
@@ -159,6 +164,12 @@ public abstract class BaseActivity<VB extends ViewBinding, P extends BasePresent
      * 视图加载完成后调用
      */
     protected abstract void onViewLoaded();
+
+    protected void beforeInitContentView(){
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        BarUtils.transparentStatusBar(this);
+        BarUtils.setStatusBarLightMode(getWindow(), statusBarIsLightMode());
+    }
 
     protected int getScreenOrientation(){
         return mDefaultScreenOrientation;
