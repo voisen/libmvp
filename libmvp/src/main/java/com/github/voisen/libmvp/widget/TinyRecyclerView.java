@@ -75,11 +75,11 @@ public class TinyRecyclerView extends RecyclerView {
         mAdapter.addData(position, data);
     }
 
-    public void addAll(@NonNull Collection<Object> dataList){
+    public void addAll(@NonNull Collection dataList){
         mAdapter.addAll(dataList);
     }
 
-    public void addAll(int index, @NonNull Collection<Object> dataList){
+    public void addAll(int index, @NonNull Collection dataList){
         mAdapter.addAll(index, dataList);
     }
 

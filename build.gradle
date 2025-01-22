@@ -31,5 +31,5 @@ task clean(type: Delete) {
 project.ext {
     groupId = 'com.github.voisen'
     artifactId = 'libmvp'
-    snapshot = '0.0.7'
+    snapshot = '0.0.8'
 }

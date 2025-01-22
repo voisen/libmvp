@@ -3,6 +3,7 @@ package com.github.voisen.libmvp.base;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,6 +38,7 @@ import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
+import me.jessyan.autosize.AutoSizeCompat;
 
 public abstract class BaseActivity<VB extends ViewBinding, P extends BasePresenter> extends AppCompatActivity implements BaseView {
 
@@ -236,4 +238,9 @@ public abstract class BaseActivity<VB extends ViewBinding, P extends BasePresent
     }
 
 
+    @Override
+    public Resources getResources() {
+        AutoSizeCompat.autoConvertDensityOfGlobal(super.getResources());
+        return super.getResources();
+    }
 }
