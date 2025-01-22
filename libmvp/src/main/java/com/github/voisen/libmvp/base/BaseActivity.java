@@ -23,6 +23,7 @@ import androidx.viewbinding.ViewBinding;
 
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
+import com.blankj.utilcode.util.ThreadUtils;
 import com.github.voisen.libmvp.AppProfile;
 import com.github.voisen.libmvp.R;
 import com.github.voisen.libmvp.widget.ProgressHUB;
@@ -240,7 +241,9 @@ public abstract class BaseActivity<VB extends ViewBinding, P extends BasePresent
 
     @Override
     public Resources getResources() {
-        AutoSizeCompat.autoConvertDensityOfGlobal(super.getResources());
+        if (ThreadUtils.isMainThread()){
+            AutoSizeCompat.autoConvertDensityOfGlobal(super.getResources());
+        }
         return super.getResources();
     }
 }
